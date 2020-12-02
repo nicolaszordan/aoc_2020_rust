@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use std::fs::File;
 use std::io::Read;
 
@@ -12,6 +13,16 @@ fn solve_part1(input: &[u32]) -> u32 {
     unreachable!()
 }
 
+fn solve_part1_cartesian_product(input: &[u32]) -> u32 {
+    let (l, r) = input
+        .iter()
+        .cartesian_product(input)
+        .find(|(l, r)| *l + *r == 2020)
+        .unwrap();
+
+    l * r
+}
+
 fn solve_part2(input: &[u32]) -> u32 {
     for (index1, num1) in input.iter().enumerate() {
         for (index2, num2) in input[index1..].iter().enumerate() {
@@ -23,6 +34,17 @@ fn solve_part2(input: &[u32]) -> u32 {
         }
     }
     unreachable!()
+}
+
+fn solve_part2_cartesian_product(input: &[u32]) -> u32 {
+    let ((l, m), r) = input
+        .iter()
+        .cartesian_product(input)
+        .cartesian_product(input)
+        .find(|((l, m), r)| *l + *m + *r == 2020)
+        .unwrap();
+
+    l * m * r
 }
 
 fn generate_part1(input: &str) -> Vec<u32> {
