@@ -12,6 +12,19 @@ fn solve_part1(input: &[u32]) -> u32 {
     0
 }
 
+fn solve_part2(input: &[u32]) -> u32 {
+    for (index1, num1) in input.iter().enumerate() {
+        for (index2, num2) in input[index1..].iter().enumerate() {
+            for num3 in input[index1+index2..].iter() {
+                if num1 + num2 + num3 == 2020 {
+                    return num1 * num2 * num3;
+                }       
+            }
+        }
+    }
+    0
+}
+
 fn generate_part1(input: &str) -> Vec<u32> {
     input.lines()
         .map(|line| line.parse().unwrap())
@@ -25,17 +38,32 @@ pub fn part1() {
     println!("{}", solve_part1(&generate_part1(&input)));
 }
 
+pub fn part2() {
+    let mut file = File::open("input/2020/day1.txt").unwrap();
+    let mut input = String::new();
+    file.read_to_string(&mut input).unwrap();
+    // part1 and part2 use the same generator
+    println!("{}", solve_part2(&generate_part1(&input)));
+}
+
 mod test {
     use super::solve_part1;
+    use super::solve_part2;
     use super::generate_part1;
 
     #[test]
-    fn solve_example() {
+    fn solve_part1_example() {
         assert_eq!(solve_part1(&[1721, 979, 366, 299, 675, 1456]), 514579);
     }
 
     #[test]
-    fn generate_example() {
+    fn generate_part1_example() {
         assert_eq!(generate_part1("123\n456\n789\n0\n2"), [123, 456, 789, 0, 2].to_vec());
     }
+
+    #[test]
+    fn solve_part2_example() {
+        assert_eq!(solve_part2(&[1721, 979, 366, 299, 675, 1456]), 241861950);
+    }
+
 }
