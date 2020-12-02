@@ -9,7 +9,7 @@ fn solve_part1(input: &[u32]) -> u32 {
             }
         }
     }
-    0
+    unreachable!()
 }
 
 fn solve_part2(input: &[u32]) -> u32 {
@@ -22,7 +22,7 @@ fn solve_part2(input: &[u32]) -> u32 {
             }
         }
     }
-    0
+    unreachable!()
 }
 
 fn generate_part1(input: &str) -> Vec<u32> {
