@@ -6,7 +6,7 @@ fn solve_part1(input: &[u32]) -> u32 {
         for num2 in input[index..].iter() {
             if num1 + num2 == 2020 {
                 return num1 * num2;
-            }       
+            }
         }
     }
     0
@@ -15,10 +15,10 @@ fn solve_part1(input: &[u32]) -> u32 {
 fn solve_part2(input: &[u32]) -> u32 {
     for (index1, num1) in input.iter().enumerate() {
         for (index2, num2) in input[index1..].iter().enumerate() {
-            for num3 in input[index1+index2..].iter() {
+            for num3 in input[index1 + index2..].iter() {
                 if num1 + num2 + num3 == 2020 {
                     return num1 * num2 * num3;
-                }       
+                }
             }
         }
     }
@@ -26,9 +26,7 @@ fn solve_part2(input: &[u32]) -> u32 {
 }
 
 fn generate_part1(input: &str) -> Vec<u32> {
-    input.lines()
-        .map(|line| line.parse().unwrap())
-        .collect()
+    input.lines().map(|line| line.parse().unwrap()).collect()
 }
 
 pub fn part1() {
@@ -47,9 +45,9 @@ pub fn part2() {
 }
 
 mod test {
+    use super::generate_part1;
     use super::solve_part1;
     use super::solve_part2;
-    use super::generate_part1;
 
     #[test]
     fn solve_part1_example() {
@@ -58,12 +56,14 @@ mod test {
 
     #[test]
     fn generate_part1_example() {
-        assert_eq!(generate_part1("123\n456\n789\n0\n2"), [123, 456, 789, 0, 2].to_vec());
+        assert_eq!(
+            generate_part1("123\n456\n789\n0\n2"),
+            [123, 456, 789, 0, 2].to_vec()
+        );
     }
 
     #[test]
     fn solve_part2_example() {
         assert_eq!(solve_part2(&[1721, 979, 366, 299, 675, 1456]), 241861950);
     }
-
 }
