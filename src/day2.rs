@@ -24,6 +24,16 @@ fn solve_part1(password_requirements: &[PasswordRequirement]) -> usize {
         .count()
 }
 
+fn solve_part2(password_requirements: &[PasswordRequirement]) -> usize {
+    password_requirements
+        .iter()
+        .filter(|req| {
+            (req.password.chars().nth(req.lower_limit - 1).unwrap() == req.required_char)
+                != (req.password.chars().nth(req.upper_limit - 1).unwrap() == req.required_char)
+        })
+        .count()
+}
+
 fn parse_part1(input: &str) -> Vec<PasswordRequirement> {
     let re = Regex::new(r"(\d+)-(\d+) ([a-z]): ([a-z]+)").unwrap();
     input
@@ -45,6 +55,13 @@ pub fn part1() {
     let mut input = String::new();
     file.read_to_string(&mut input).unwrap();
     println!("{}", solve_part1(&parse_part1(&input)));
+}
+
+pub fn part2() {
+    let mut file = File::open("input/2020/day2.txt").unwrap();
+    let mut input = String::new();
+    file.read_to_string(&mut input).unwrap();
+    println!("{}", solve_part2(&parse_part1(&input)));
 }
 
 mod test {
@@ -74,6 +91,33 @@ mod test {
                 },
             ]),
             2
+        );
+    }
+
+    #[test]
+    fn solve_part2_example() {
+        assert_eq!(
+            solve_part1(&[
+                PasswordRequirement {
+                    lower_limit: 1,
+                    upper_limit: 3,
+                    required_char: 'a',
+                    password: "abcde".to_owned()
+                },
+                PasswordRequirement {
+                    lower_limit: 1,
+                    upper_limit: 3,
+                    required_char: 'b',
+                    password: "cdefg".to_owned()
+                },
+                PasswordRequirement {
+                    lower_limit: 2,
+                    upper_limit: 9,
+                    required_char: 'c',
+                    password: "cccccccc".to_owned()
+                },
+            ]),
+            1
         );
     }
 
