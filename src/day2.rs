@@ -68,7 +68,7 @@ mod test {
     use super::*;
 
     #[test]
-    fn solve_part1_example() {
+    fn solve_day2_part1_example() {
         assert_eq!(
             solve_part1(&[
                 PasswordRequirement {
@@ -95,7 +95,7 @@ mod test {
     }
 
     #[test]
-    fn solve_part2_example() {
+    fn solve_day2_part2_example() {
         assert_eq!(
             solve_part1(&[
                 PasswordRequirement {
@@ -122,7 +122,7 @@ mod test {
     }
 
     #[test]
-    fn parse_part1_example() {
+    fn parse_day2_part1_example() {
         assert_eq!(
             parse_part1("1-3 a: abcde\n1-3 b: cdefg\n19-49 c: cccccccc\n\n"),
             [

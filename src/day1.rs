@@ -72,12 +72,12 @@ mod test {
     use super::solve_part2;
 
     #[test]
-    fn solve_part1_example() {
+    fn solve_day1_part1_example() {
         assert_eq!(solve_part1(&[1721, 979, 366, 299, 675, 1456]), 514579);
     }
 
     #[test]
-    fn parse_part1_example() {
+    fn parse_day1_part1_example() {
         assert_eq!(
             parse_part1("123\n456\n789\n0\n2"),
             [123, 456, 789, 0, 2].to_vec()
@@ -85,7 +85,7 @@ mod test {
     }
 
     #[test]
-    fn solve_part2_example() {
+    fn solve_day1_part2_example() {
         assert_eq!(solve_part2(&[1721, 979, 366, 299, 675, 1456]), 241861950);
     }
 }
