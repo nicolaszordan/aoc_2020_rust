@@ -47,7 +47,7 @@ fn solve_part2_cartesian_product(input: &[u32]) -> u32 {
     l * m * r
 }
 
-fn generate_part1(input: &str) -> Vec<u32> {
+fn parse_part1(input: &str) -> Vec<u32> {
     input.lines().map(|line| line.parse().unwrap()).collect()
 }
 
@@ -55,7 +55,7 @@ pub fn part1() {
     let mut file = File::open("input/2020/day1.txt").unwrap();
     let mut input = String::new();
     file.read_to_string(&mut input).unwrap();
-    println!("{}", solve_part1(&generate_part1(&input)));
+    println!("{}", solve_part1(&parse_part1(&input)));
 }
 
 pub fn part2() {
@@ -63,11 +63,11 @@ pub fn part2() {
     let mut input = String::new();
     file.read_to_string(&mut input).unwrap();
     // part1 and part2 use the same generator
-    println!("{}", solve_part2(&generate_part1(&input)));
+    println!("{}", solve_part2(&parse_part1(&input)));
 }
 
 mod test {
-    use super::generate_part1;
+    use super::parse_part1;
     use super::solve_part1;
     use super::solve_part2;
 
@@ -77,9 +77,9 @@ mod test {
     }
 
     #[test]
-    fn generate_part1_example() {
+    fn parse_part1_example() {
         assert_eq!(
-            generate_part1("123\n456\n789\n0\n2"),
+            parse_part1("123\n456\n789\n0\n2"),
             [123, 456, 789, 0, 2].to_vec()
         );
     }
