@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::Read;
 
@@ -17,11 +18,41 @@ fn solve_part1(input: &str) -> u32 {
         .unwrap()
 }
 
+fn solve_part2(input: &str) -> u32 {
+    let bording_pass_list = input
+        .lines()
+        .map(|line| {
+            line.chars()
+                .map(|c| match c {
+                    'F' | 'L' => 0,
+                    'B' | 'R' => 1,
+                    _ => panic!(),
+                })
+                .fold(0, |acc, bit| acc << 1 | bit)
+        })
+        .collect::<HashSet<u32>>();
+
+    (0..0b1111111111)
+        .find(|n| {
+            !bording_pass_list.contains(&n)
+                && bording_pass_list.contains(&(n + 1))
+                && bording_pass_list.contains(&(n - 1))
+        })
+        .unwrap()
+}
+
 pub fn part1() {
     let mut file = File::open("input/2020/day5.txt").unwrap();
     let mut input = String::new();
     file.read_to_string(&mut input).unwrap();
     println!("{}", solve_part1(&input));
+}
+
+pub fn part2() {
+    let mut file = File::open("input/2020/day5.txt").unwrap();
+    let mut input = String::new();
+    file.read_to_string(&mut input).unwrap();
+    println!("{}", solve_part2(&input));
 }
 
 mod test {
