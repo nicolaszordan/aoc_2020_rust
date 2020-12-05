@@ -64,6 +64,7 @@ pub fn part2() {
     println!("{}", solve_part2(&parse_part1(&input)));
 }
 
+#[cfg(test)]
 mod test {
     use super::*;
 

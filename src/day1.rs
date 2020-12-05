@@ -13,6 +13,7 @@ fn solve_part1(input: &[u32]) -> u32 {
     unreachable!()
 }
 
+#[allow(dead_code)]
 fn solve_part1_cartesian_product(input: &[u32]) -> u32 {
     let (l, r) = input
         .iter()
@@ -36,6 +37,7 @@ fn solve_part2(input: &[u32]) -> u32 {
     unreachable!()
 }
 
+#[allow(dead_code)]
 fn solve_part2_cartesian_product(input: &[u32]) -> u32 {
     let ((l, m), r) = input
         .iter()
@@ -66,6 +68,7 @@ pub fn part2() {
     println!("{}", solve_part2(&parse_part1(&input)));
 }
 
+#[cfg(test)]
 mod test {
     use super::parse_part1;
     use super::solve_part1;

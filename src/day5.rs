@@ -55,6 +55,7 @@ pub fn part2() {
     println!("{}", solve_part2(&input));
 }
 
+#[cfg(test)]
 mod test {
     use super::*;
 
