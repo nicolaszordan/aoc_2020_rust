@@ -61,7 +61,7 @@ fn parse_part1(input: &str) -> Vec<Credentials> {
                 cid: None,
             };
             for credential in chunk.split_whitespace() {
-                let mut credential = credential.split(":");
+                let mut credential = credential.split(':');
                 match credential.next().unwrap() {
                     "byr" => ret.byr = Some(credential.next().unwrap().to_owned()),
                     "iyr" => ret.iyr = Some(credential.next().unwrap().to_owned()),

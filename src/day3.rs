@@ -7,11 +7,11 @@ enum GridElement {
     Tree,
 }
 
-fn solve_part1(map: &Vec<Vec<GridElement>>) -> usize {
+fn solve_part1(map: &[Vec<GridElement>]) -> usize {
     tree_in_slope(map, 3, 1)
 }
 
-fn solve_part2(map: &Vec<Vec<GridElement>>) -> usize {
+fn solve_part2(map: &[Vec<GridElement>]) -> usize {
     tree_in_slope(map, 1, 1)
         * tree_in_slope(map, 3, 1)
         * tree_in_slope(map, 5, 1)
@@ -19,7 +19,7 @@ fn solve_part2(map: &Vec<Vec<GridElement>>) -> usize {
         * tree_in_slope(map, 1, 2)
 }
 
-fn tree_in_slope(map: &Vec<Vec<GridElement>>, vx: usize, vy: usize) -> usize {
+fn tree_in_slope(map: &[Vec<GridElement>], vx: usize, vy: usize) -> usize {
     let max_x = map[0].len();
     let mut tree_count = 0;
     let mut pos_x = 0;
