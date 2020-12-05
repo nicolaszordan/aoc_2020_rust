@@ -6,23 +6,12 @@ fn solve_part1(input: &str) -> u32 {
         .lines()
         .map(|line| {
             line.chars()
-                .take(7)
                 .map(|c| match c {
-                    'F' => 0,
-                    'B' => 1,
+                    'F' | 'L' => 0,
+                    'B' | 'R' => 1,
                     _ => panic!(),
                 })
                 .fold(0, |acc, bit| acc << 1 | bit)
-                * 8
-                + line
-                    .chars()
-                    .skip(7)
-                    .map(|c| match c {
-                        'L' => 0,
-                        'R' => 1,
-                        _ => panic!(),
-                    })
-                    .fold(0, |acc, bit| acc << 1 | bit)
         })
         .max()
         .unwrap()
