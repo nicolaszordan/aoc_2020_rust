@@ -10,3 +10,8 @@ edition = "2018"
 regex = "1"
 itertools = "0.9"
 lazy_static = "1.4"
+criterion = "0.3"
+
+[[bench]]
+name = "day5"
+harness = false

@@ -18,7 +18,7 @@ fn solve_part1(input: &str) -> u32 {
         .unwrap()
 }
 
-fn solve_part2(input: &str) -> u32 {
+pub fn solve_part2(input: &str) -> u32 {
     let bording_pass_list = input
         .lines()
         .map(|line| {
@@ -41,6 +41,62 @@ fn solve_part2(input: &str) -> u32 {
         .unwrap()
 }
 
+#[allow(dead_code)]
+pub fn solve_part2_with_min_max(input: &str) -> u32 {
+    let mut min = 0b1111111111;
+    let mut max = 0;
+    let bording_pass_list = input
+        .lines()
+        .map(|line| {
+            let num = line
+                .chars()
+                .map(|c| match c {
+                    'F' | 'L' => 0,
+                    'B' | 'R' => 1,
+                    _ => panic!(),
+                })
+                .fold(0, |acc, bit| acc << 1 | bit);
+            if min > num {
+                min = num;
+            }
+            if max < num {
+                max = num;
+            }
+            num
+        })
+        .collect::<HashSet<u32>>();
+
+    (min..max)
+        .find(|n| {
+            !bording_pass_list.contains(&n)
+                && bording_pass_list.contains(&(n + 1))
+                && bording_pass_list.contains(&(n - 1))
+        })
+        .unwrap()
+}
+
+pub fn solve_part2_vector(input: &str) -> u32 {
+    let bording_pass_list = input
+        .lines()
+        .map(|line| {
+            line.chars()
+                .map(|c| match c {
+                    'F' | 'L' => 0,
+                    'B' | 'R' => 1,
+                    _ => panic!(),
+                })
+                .fold(0, |acc, bit| acc << 1 | bit)
+        })
+        .collect::<Vec<u32>>();
+
+    (0..0b1111111111)
+        .find(|n| {
+            !bording_pass_list.contains(&n)
+                && bording_pass_list.contains(&(n + 1))
+                && bording_pass_list.contains(&(n - 1))
+        })
+        .unwrap()
+}
 pub fn part1() {
     let mut file = File::open("input/2020/day5.txt").unwrap();
     let mut input = String::new();
