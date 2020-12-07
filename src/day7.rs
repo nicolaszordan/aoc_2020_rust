@@ -25,6 +25,21 @@ fn find_rules_for_bag(
         });
 }
 
+pub fn solve_part2(rules: &Vec<(String, Vec<(usize, String)>)>) -> usize {
+    find_total_bags_for_bag(&"shiny gold".to_string(), rules) - 1
+}
+
+fn find_total_bags_for_bag(bag: &String, rules: &Vec<(String, Vec<(usize, String)>)>) -> usize {
+    1 + rules
+        .iter()
+        .find(|(key, _)| key == bag)
+        .unwrap()
+        .1
+        .iter()
+        .map(|(count, bag)| count * find_total_bags_for_bag(bag, rules))
+        .sum::<usize>()
+}
+
 pub fn parse_part1(input: &str) -> Vec<(String, Vec<(usize, String)>)> {
     lazy_static! {
         static ref RE: Regex = Regex::new(r"(?P<count>\d+) (?P<color>.+?) bags?").unwrap();
@@ -58,6 +73,13 @@ pub fn part1() {
     println!("{}", solve_part1(&parse_part1(&input)));
 }
 
+pub fn part2() {
+    let mut file = File::open("input/2020/day7.txt").unwrap();
+    let mut input = String::new();
+    file.read_to_string(&mut input).unwrap();
+    println!("{}", solve_part2(&parse_part1(&input)));
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -65,6 +87,11 @@ mod test {
     #[test]
     fn solve_part1_example() {
         assert_eq!(solve_part1(&parse_part1("light red bags contain 1 bright white bag, 2 muted yellow bags.\ndark orange bags contain 3 bright white bags, 4 muted yellow bags.\nbright white bags contain 1 shiny gold bag.\nmuted yellow bags contain 2 shiny gold bags, 9 faded blue bags.\nshiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.\ndark olive bags contain 3 faded blue bags, 4 dotted black bags.\nvibrant plum bags contain 5 faded blue bags, 6 dotted black bags.\nfaded blue bags contain no other bags.\ndotted black bags contain no other bags.")), 4);
+    }
+
+    #[test]
+    fn solve_part2_example() {
+        assert_eq!(solve_part2(&parse_part1("light red bags contain 1 bright white bag, 2 muted yellow bags.\ndark orange bags contain 3 bright white bags, 4 muted yellow bags.\nbright white bags contain 1 shiny gold bag.\nmuted yellow bags contain 2 shiny gold bags, 9 faded blue bags.\nshiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.\ndark olive bags contain 3 faded blue bags, 4 dotted black bags.\nvibrant plum bags contain 5 faded blue bags, 6 dotted black bags.\nfaded blue bags contain no other bags.\ndotted black bags contain no other bags.")), 32);
     }
 
     #[test]
