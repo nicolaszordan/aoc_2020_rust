@@ -1,4 +1,6 @@
-use aoc_2020::day6::{solve_part1, solve_part1_iter_over_alpha, solve_part2, solve_part2_iter_over_alpha};
+use aoc_2020::day6::{
+    solve_part1, solve_part1_iter_over_alpha, solve_part2, solve_part2_iter_over_alpha,
+};
 use criterion::{criterion_group, criterion_main, Criterion};
 use std::fs::File;
 use std::io::Read;
