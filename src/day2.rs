@@ -41,10 +41,10 @@ fn parse_part1(input: &str) -> Vec<PasswordRequirement> {
         .map(|line| {
             let caps = re.captures(line).unwrap();
             PasswordRequirement {
-                lower_limit: caps.get(1).unwrap().as_str().parse().unwrap(),
-                upper_limit: caps.get(2).unwrap().as_str().parse().unwrap(),
-                required_char: caps.get(3).unwrap().as_str().chars().next().unwrap(),
-                password: caps.get(4).unwrap().as_str().to_owned(),
+                lower_limit: caps[1].parse().unwrap(),
+                upper_limit: caps[2].parse().unwrap(),
+                required_char: caps[3].chars().next().unwrap(),
+                password: caps[4].to_owned(),
             }
         })
         .collect()

@@ -106,8 +106,8 @@ fn hgt_is_valid(input: &str) -> bool {
     }
     match RE.captures(input) {
         Some(captures) => {
-            let height = captures.get(1).unwrap().as_str().parse::<u32>().unwrap();
-            if captures.get(2).unwrap().as_str() == "in" {
+            let height = captures[1].parse::<u32>().unwrap();
+            if &captures[2] == "in" {
                 height >= 59 && height <= 76
             } else {
                 height >= 150 && height <= 193
