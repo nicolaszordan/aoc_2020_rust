@@ -6,11 +6,11 @@ pub fn parse_part1(input: &str) -> Vec<usize> {
     input.lines().map(|line| line.parse().unwrap()).collect()
 }
 
-pub fn solve_part1(input: &Vec<usize>) -> usize {
+pub fn solve_part1(input: &[usize]) -> usize {
     crack_xmas(input, 25).unwrap()
 }
 
-pub fn crack_xmas(input: &Vec<usize>, preamble: usize) -> Option<usize> {
+pub fn crack_xmas(input: &[usize], preamble: usize) -> Option<usize> {
     for (i, _) in input.iter().enumerate() {
         // will panic if input[i+preamble] is OOB
         if found_vulnerability(&input[i..i + preamble], input[i + preamble]) {

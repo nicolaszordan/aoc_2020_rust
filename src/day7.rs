@@ -3,15 +3,15 @@ use std::collections::HashSet;
 use std::fs::File;
 use std::io::Read;
 
-pub fn solve_part1(rules: &Vec<(String, Vec<(usize, String)>)>) -> usize {
+pub fn solve_part1(rules: &[(String, Vec<(usize, String)>)]) -> usize {
     let mut found = HashSet::new();
     find_rules_for_bag(&"shiny gold".to_string(), rules, &mut found);
     found.len()
 }
 
 fn find_rules_for_bag(
-    bag: &String,
-    rules: &Vec<(String, Vec<(usize, String)>)>,
+    bag: &str,
+    rules: &[(String, Vec<(usize, String)>)],
     already_found: &mut HashSet<String>,
 ) {
     rules
@@ -25,11 +25,11 @@ fn find_rules_for_bag(
         });
 }
 
-pub fn solve_part2(rules: &Vec<(String, Vec<(usize, String)>)>) -> usize {
+pub fn solve_part2(rules: &[(String, Vec<(usize, String)>)]) -> usize {
     find_total_bags_for_bag(&"shiny gold".to_string(), rules) - 1
 }
 
-fn find_total_bags_for_bag(bag: &String, rules: &Vec<(String, Vec<(usize, String)>)>) -> usize {
+fn find_total_bags_for_bag(bag: &str, rules: &[(String, Vec<(usize, String)>)]) -> usize {
     1 + rules
         .iter()
         .find(|(key, _)| key == bag)
@@ -48,8 +48,8 @@ pub fn parse_part1(input: &str) -> Vec<(String, Vec<(usize, String)>)> {
     input
         .lines()
         .map(
-            |line| match line.split(" bags contain ").collect::<Vec<_>>().as_slice() {
-                &[bag, rule] => (
+            |line| match *line.split(" bags contain ").collect::<Vec<_>>().as_slice() {
+                [bag, rule] => (
                     bag.to_owned(),
                     RE.captures_iter(rule)
                         .map(|capture| {

@@ -35,29 +35,23 @@ pub fn solve_part1(instructions: &[Instruction]) -> i32 {
     acc
 }
 
-pub fn solve_part2(instructions: &Vec<Instruction>) -> i32 {
+pub fn solve_part2(instructions: &[Instruction]) -> i32 {
     for (i, instruction) in instructions.iter().enumerate() {
         match instruction.op {
             Opcode::Jmp => {
-                let mut instructions = instructions.clone();
+                let mut instructions = instructions.to_owned();
                 instructions[i].op = Opcode::Nop;
-                match run_part2(&instructions) {
-                    Some(acc) => {
-                        println!("instruction was a JMP at {}", i);
-                        return acc;
-                    }
-                    None => (),
+                if let Some(acc) = run_part2(&instructions) {
+                    println!("instruction was a JMP at {}", i);
+                    return acc;
                 }
             }
             Opcode::Nop => {
-                let mut instructions = instructions.clone();
+                let mut instructions = instructions.to_owned();
                 instructions[i].op = Opcode::Jmp;
-                match run_part2(&instructions) {
-                    Some(acc) => {
-                        println!("instruction was a NOP at {}", i);
-                        return acc;
-                    }
-                    None => (),
+                if let Some(acc) = run_part2(&instructions) {
+                    println!("instruction was a NOP at {}", i);
+                    return acc;
                 }
             }
             _ => (),
@@ -98,8 +92,8 @@ pub fn parse_part1(input: &str) -> Vec<Instruction> {
         .lines()
         .map(
             |line| match line.split(' ').collect::<Vec<_>>().as_slice() {
-                &[op, param] => Instruction {
-                    op: match op {
+                [op, param] => Instruction {
+                    op: match *op {
                         "jmp" => Opcode::Jmp,
                         "acc" => Opcode::Acc,
                         "nop" => Opcode::Nop,
