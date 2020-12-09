@@ -1,7 +1,7 @@
 use itertools::Itertools;
+use std::cmp::Ordering;
 use std::fs::File;
 use std::io::Read;
-use std::cmp::Ordering;
 
 pub fn parse_part1(input: &str) -> Vec<usize> {
     input.lines().map(|line| line.parse().unwrap()).collect()
@@ -34,7 +34,10 @@ pub fn solve_part2_paul_b(input: &[usize], to_find: usize) -> usize {
     let mut upper = 2;
     loop {
         match input[lower..upper].iter().sum::<usize>().cmp(&to_find) {
-            Ordering::Equal => return input[lower..upper].iter().max().unwrap() + input[lower..upper].iter().min().unwrap(),
+            Ordering::Equal => {
+                return input[lower..upper].iter().max().unwrap()
+                    + input[lower..upper].iter().min().unwrap()
+            }
             Ordering::Less => upper += 1,
             Ordering::Greater => lower += 1,
         }
