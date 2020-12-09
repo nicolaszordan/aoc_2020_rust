@@ -11,6 +11,19 @@ pub fn solve_part1(input: &[usize]) -> usize {
     crack_xmas(input, 25).unwrap()
 }
 
+#[allow(dead_code)]
+pub fn solve_part1_windows(input: &[usize]) -> usize {
+    input
+        .windows(26)
+        .find(|wind| {
+            wind[..25]
+                .iter()
+                .tuple_combinations()
+                .all(|(a, b)| a + b != wind[25])
+        })
+        .unwrap()[25]
+}
+
 pub fn crack_xmas(input: &[usize], preamble: usize) -> Option<usize> {
     for (i, _) in input.iter().enumerate() {
         // will panic if input[i+preamble] is OOB
@@ -42,6 +55,21 @@ pub fn solve_part2_paul_b(input: &[usize], to_find: usize) -> usize {
             Ordering::Greater => lower += 1,
         }
     }
+}
+
+pub fn solve_part2_windows(
+    input: &[usize],
+    invalid_number_index: usize,
+    invalid_number: usize,
+) -> usize {
+    (2..)
+        .find_map(|range_len| {
+            input[..invalid_number_index]
+                .windows(range_len)
+                .find(|range| range.iter().sum::<usize>() == invalid_number)
+                .map(|range| range.iter().min().unwrap() + range.iter().max().unwrap())
+        })
+        .unwrap()
 }
 
 pub fn part1() {
