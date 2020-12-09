@@ -5,7 +5,7 @@ use std::io::Read;
 
 pub fn solve_part1(rules: &[(String, Vec<(usize, String)>)]) -> usize {
     let mut found = HashSet::new();
-    find_rules_for_bag(&"shiny gold".to_string(), rules, &mut found);
+    find_rules_for_bag("shiny gold", rules, &mut found);
     found.len()
 }
 
@@ -26,7 +26,7 @@ fn find_rules_for_bag(
 }
 
 pub fn solve_part2(rules: &[(String, Vec<(usize, String)>)]) -> usize {
-    find_total_bags_for_bag(&"shiny gold".to_string(), rules) - 1
+    find_total_bags_for_bag("shiny gold", rules) - 1
 }
 
 fn find_total_bags_for_bag(bag: &str, rules: &[(String, Vec<(usize, String)>)]) -> usize {
