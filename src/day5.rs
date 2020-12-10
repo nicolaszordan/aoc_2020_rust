@@ -97,6 +97,7 @@ pub fn solve_part2_vector(input: &str) -> u32 {
         })
         .unwrap()
 }
+
 pub fn part1() {
     let mut file = File::open("input/2020/day5.txt").unwrap();
     let mut input = String::new();
