@@ -38,7 +38,7 @@ pub fn solve_part2(input: &[usize]) -> usize {
     input
         .split(|num| *num == 3)
         .map(|sub| tribonnaci(sub.len()))
-        .fold(1, |acc, x| acc * x)
+        .product()
 }
 
 pub fn parse_slice_of_diffs(input: &str) -> Vec<usize> {
@@ -47,7 +47,7 @@ pub fn parse_slice_of_diffs(input: &str) -> Vec<usize> {
         .map(|line| line.parse().unwrap())
         .collect::<Vec<_>>();
     input.push(0);
-    input.sort();
+    input.sort_unstable();
     input.push(input[input.len() - 1] + 3);
 
     input
