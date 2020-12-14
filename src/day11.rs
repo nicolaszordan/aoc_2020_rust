@@ -152,7 +152,7 @@ pub fn parse_input(input: &str) -> Map {
     Map { map }
 }
 
-pub fn solve_part1(input: &str) -> usize { 
+pub fn solve_part1(input: &str) -> usize {
     let mut map = parse_input(input);
     loop {
         let next_map = map.step_part1();
@@ -201,8 +201,14 @@ mod test {
 
     #[test]
     fn test_map_step() {
-        assert_eq!(parse_input("L.\nLL\nL.").step_part1(), parse_input("#.\n##\n#."));
-        assert_eq!(parse_input("L.L\nLLL\nL.L").step_part1(), parse_input("#.#\n###\n#.#"));
+        assert_eq!(
+            parse_input("L.\nLL\nL.").step_part1(),
+            parse_input("#.\n##\n#.")
+        );
+        assert_eq!(
+            parse_input("L.L\nLLL\nL.L").step_part1(),
+            parse_input("#.#\n###\n#.#")
+        );
     }
 
     #[test]
