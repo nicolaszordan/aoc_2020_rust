@@ -14,7 +14,7 @@ pub enum Action {
 }
 
 #[derive(Debug)]
-pub struct Boat {
+pub struct BoatPart1 {
     angle: i32,
     orientation_y: i32,
     orientation_x: i32,
@@ -22,9 +22,9 @@ pub struct Boat {
     position_x: i32,
 }
 
-impl Boat {
-    pub fn new() -> Boat {
-        Boat {
+impl BoatPart1 {
+    pub fn new() -> BoatPart1 {
+        BoatPart1 {
             angle: 90,
             orientation_y: 0,
             orientation_x: 1, // the boat starts facing east
@@ -110,7 +110,7 @@ pub fn parse_input(input: &str) -> Vec<(Action, i32)> {
 }
 
 pub fn solve_part1(input: &[(Action, i32)]) -> i32 {
-    let mut boat = Boat::new();
+    let mut boat = BoatPart1::new();
     input
         .iter()
         .for_each(|(action, value)| boat.do_action(*action, *value));
@@ -143,8 +143,8 @@ mod test {
     }
 
     #[test]
-    fn test_example_actions() {
-        let mut boat = Boat::new();
+    fn test_part1_example_actions() {
+        let mut boat = BoatPart1::new();
         boat.do_action(Action::MoveForward, 10);
         assert_eq!((boat.position_y, boat.position_x), (0, 10));
         boat.do_action(Action::MoveNorth, 3);
@@ -158,13 +158,13 @@ mod test {
     }
 
     #[test]
-    fn test_solve_example() {
+    fn test_part1_solve_example() {
         assert_eq!(solve_part1(&parse_input("F10\nN3\nF7\nR90\nF11")), 25)
     }
 
     #[test]
-    fn test_rotation() {
-        let mut boat = Boat::new();
+    fn test_part1_rotation() {
+        let mut boat = BoatPart1::new();
         assert_eq!((boat.orientation_y, boat.orientation_x), (0, 1));
         boat.do_action(Action::TurnLeft, 180);
         assert_eq!((boat.orientation_y, boat.orientation_x), (0, -1));
