@@ -83,6 +83,79 @@ impl BoatPart1 {
     }
 }
 
+struct BoatPart2 {
+    position_y: i32,
+    position_x: i32,
+    waypoint_y: i32,
+    waypoint_x: i32,
+}
+
+impl BoatPart2 {
+    pub fn new() -> BoatPart2 {
+        BoatPart2 {
+            position_y: 0,
+            position_x: 0,
+            waypoint_y: 1,
+            waypoint_x: 10,
+        }
+    }
+
+    pub fn get_dist_from_start(&self) -> i32 {
+        self.position_x.abs() + self.position_y.abs()
+    }
+
+    pub fn do_action(&mut self, action: Action, value: i32) {
+        match action {
+            Action::MoveNorth => self.move_north(value),
+            Action::MoveSouth => self.move_south(value),
+            Action::MoveEast => self.move_east(value),
+            Action::MoveWest => self.move_west(value),
+            Action::TurnLeft => self.turn_left(value),
+            Action::TurnRight => self.turn_right(value),
+            Action::MoveForward => self.move_forward(value),
+        }
+    }
+
+    fn move_south(&mut self, value: i32) {
+        self.waypoint_y -= value
+    }
+
+    fn move_north(&mut self, value: i32) {
+        self.waypoint_y += value
+    }
+
+    fn move_east(&mut self, value: i32) {
+        self.waypoint_x += value
+    }
+
+    fn move_west(&mut self, value: i32) {
+        self.waypoint_x -= value
+    }
+
+    fn turn_left(&mut self, value: i32) {
+        let cos = (value as f64).to_radians().cos() as i32;
+        let sin = (value as f64).to_radians().sin() as i32;
+        let new_x = self.waypoint_x * cos - self.waypoint_y * sin;
+        let new_y = self.waypoint_x * sin + self.waypoint_y * cos;
+        self.waypoint_x = new_x;
+        self.waypoint_y = new_y;
+    }
+
+    fn turn_right(&mut self, value: i32) {
+        let cos = (-value as f64).to_radians().cos() as i32;
+        let sin = (-value as f64).to_radians().sin() as i32;
+        let new_x = self.waypoint_x * cos - self.waypoint_y * sin;
+        let new_y = self.waypoint_x * sin + self.waypoint_y * cos;
+        self.waypoint_x = new_x;
+        self.waypoint_y = new_y;
+    }
+
+    fn move_forward(&mut self, value: i32) {
+        self.position_x += self.waypoint_x * value;
+        self.position_y += self.waypoint_y * value;
+    }
+}
+
 pub fn parse_input(input: &str) -> Vec<(Action, i32)> {
     lazy_static! {
         static ref RE: Regex = Regex::new(r"(?P<action>N|S|E|W|L|R|F)(?P<value>\d+)").unwrap();
@@ -124,6 +197,21 @@ pub fn part1() {
     println!("{}", solve_part1(&parse_input(&input)));
 }
 
+pub fn solve_part2(input: &[(Action, i32)]) -> i32 {
+    let mut boat = BoatPart2::new();
+    input
+        .iter()
+        .for_each(|(action, value)| boat.do_action(*action, *value));
+    boat.get_dist_from_start()
+}
+
+pub fn part2() {
+    let mut file = File::open("input/2020/day12.txt").unwrap();
+    let mut input = String::new();
+    file.read_to_string(&mut input).unwrap();
+    println!("{}", solve_part2(&parse_input(&input)));
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -158,6 +246,26 @@ mod test {
     }
 
     #[test]
+    fn test_part2_example_actions() {
+        let mut boat = BoatPart2::new();
+        boat.do_action(Action::MoveForward, 10);
+        assert_eq!((boat.position_y, boat.position_x), (10, 100));
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (1, 10));
+        boat.do_action(Action::MoveNorth, 3);
+        assert_eq!((boat.position_y, boat.position_x), (10, 100));
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (4, 10));
+        boat.do_action(Action::MoveForward, 7);
+        assert_eq!((boat.position_y, boat.position_x), (38, 170));
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (4, 10));
+        boat.do_action(Action::TurnRight, 90);
+        assert_eq!((boat.position_y, boat.position_x), (38, 170));
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (-10, 4));
+        boat.do_action(Action::MoveForward, 11);
+        assert_eq!((boat.position_y, boat.position_x), (-72, 214));
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (-10, 4));
+    }
+
+    #[test]
     fn test_part1_solve_example() {
         assert_eq!(solve_part1(&parse_input("F10\nN3\nF7\nR90\nF11")), 25)
     }
@@ -184,5 +292,33 @@ mod test {
         assert_eq!((boat.orientation_y, boat.orientation_x), (0, 1));
         boat.do_action(Action::TurnRight, 360);
         assert_eq!((boat.orientation_y, boat.orientation_x), (0, 1));
+    }
+
+    #[test]
+    fn test_part2_rotation() {
+        let mut boat = BoatPart2::new();
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (1, 10));
+        boat.do_action(Action::TurnLeft, 180);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (-1, -10));
+        boat.do_action(Action::TurnRight, 180);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (1, 10));
+        boat.do_action(Action::TurnRight, 90);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (-10, 1));
+        boat.do_action(Action::TurnLeft, 180);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (10, -1));
+        boat.do_action(Action::TurnRight, 90);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (1, 10));
+        boat.do_action(Action::TurnRight, 270);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (10, -1));
+        boat.do_action(Action::TurnLeft, 90);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (-1, -10));
+        boat.do_action(Action::TurnRight, 180);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (1, 10));
+        boat.do_action(Action::TurnRight, 360);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (1, 10));
+        boat.waypoint_y = 4;
+        boat.waypoint_x = 10;
+        boat.do_action(Action::TurnRight, 90);
+        assert_eq!((boat.waypoint_y, boat.waypoint_x), (-10, 4));
     }
 }
